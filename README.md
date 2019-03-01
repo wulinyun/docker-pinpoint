@@ -1,36 +1,58 @@
 # docker-pinpoint
 
-#### Description
-pinpoint docker file
+This repo contains the docker images for [Pinpoint](https://github.com/naver/pinpoint), or you can just use the docker compose file run pinpoint in seconds.
 
-#### Software Architecture
-Software architecture description
+### To build the images
+* Go to a folder
+* `docker build -t repo-name:latest .` to build the image
 
-#### Installation
+### To run all containers
 
-1. xxxx
-2. xxxx
-3. xxxx
+```
+docker-compose up -d
+```
 
-#### Instructions
-
-1. xxxx
-2. xxxx
-3. xxxx
-
-#### Contribution
-
-1. Fork the repository
-2. Create Feat_xxx branch
-3. Commit your code
-4. Create Pull Request
+Open your browser and then go to <http://localhost:28080>
 
 
-#### Gitee Feature
+### Add your own Java based application to be monitored.
 
-1. You can use Readme\_XXX.md to support different languages, such as Readme\_en.md, Readme\_zh.md
-2. Gitee blog [blog.gitee.com](https://blog.gitee.com)
-3. Explore open source project [https://gitee.com/explore](https://gitee.com/explore)
-4. The most valuable open source project [GVP](https://gitee.com/gvp)
-5. The manual of Gitee [https://gitee.com/help](https://gitee.com/help)
-6. The most popular members  [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
+* Modify the `pinpoint.config` if you need.
+
+```
+###########################################################
+# Collector server                                        #
+###########################################################
+profiler.collector.ip=127.0.0.1
+
+# placeHolder support "${key}"
+profiler.collector.span.ip=${profiler.collector.ip}
+profiler.collector.span.port=9996
+
+# placeHolder support "${key}"
+profiler.collector.stat.ip=${profiler.collector.ip}
+profiler.collector.stat.port=9995
+
+# placeHolder support "${key}"
+profiler.collector.tcp.ip=${profiler.collector.ip}
+profiler.collector.tcp.port=9994
+
+```
+
+
+* The following script is a example for a spring boot application.
+
+```shell
+java  -javaagent:/some-absolute-path/pinpoint-agent-1.6.2/pinpoint-bootstrap-1.6.2.jar -Dpinpoint.agentId=some-union-id -Dpinpoint.applicationName=some-name -jar build/libs/wise-log-1.0.0-SNAPSHOT.jar
+
+```
+
+[See more examples of monitoring](examples) using docker-compose, image docker, monitoring tests with selenium, ...
+
+You can find more samples at: <https://github.com/spring-projects/spring-boot/tree/master/spring-boot-samples>
+
+If you plan to use external volumes for hbase you should fill hbase first.
+Please run this script inside hbase container
+```
+${HBASE_HOME}/bin/hbase shell /opt/hbase/hbase-create.hbase; ${HBASE_HOME}/bin/stop-hbase.sh
+```
