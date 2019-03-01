@@ -1,7 +1,7 @@
 version: '2'
 services:
   hbase:
-    image: xxx.xxx.xxx.xxx/prj/pinpoint-hbase:1.8.2
+    image: tinylk/pinpoint-hbase:1.8.2
     environment:
       TZ: Asia/Shanghai
     volumes:
@@ -9,7 +9,7 @@ services:
     - hbase_zk_data:/home/pinpoint/zookeeper
 
   mysql:
-    image: xxx.xxx.xxx.xxx/prj/pinpoint-mysql:1.8.2
+    image: tinylk/pinpoint-mysql:1.8.2
     environment:
       MYSQL_DATABASE: pinpoint
       MYSQL_PASSWORD: admin
@@ -20,7 +20,7 @@ services:
     - mysql_data:/var/lib/mysql
 
   collector:
-    image: xxx.xxx.xxx.xxx/prj/pinpoint-collector:1.8.2
+    image: tinylk/pinpoint-collector:1.8.2
     environment:
       CLUSTER_ENABLE: 'true'
       CLUSTER_ZOOKEEPER_ADDRESS: hbase
@@ -40,7 +40,7 @@ services:
     - 9996:9996/udp
 
   web:
-    image: xxx.xxx.xxx.xxx/prj/pinpoint-web:1.8.2
+    image: tinylk/pinpoint-web:1.8.2
     environment:
       ADMIN_PASSWORD: admin123
       BATCH_ENABLE: 'true'
